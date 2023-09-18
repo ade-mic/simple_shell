@@ -4,7 +4,7 @@
  *
  * Return: void
  */
-void interactive_mode(void)
+void interactive_mode(char *program_name)
 {
 	char *line;
 	char **args;
@@ -14,7 +14,7 @@ void interactive_mode(void)
 		write(1, "Xshell$ ", 10);
 		line = readline();
 		args = process_line(line);
-		status = execute_args(args);
+		status = execute_args(program_name, args);
 
 		/** free memory **/
 		free(line);

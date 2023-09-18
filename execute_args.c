@@ -5,7 +5,7 @@
  *
  * Returrn: 1 on success, 0 otherrwise
  */
-int execute_args(char **args)
+int execute_args(char *program_name, char **args)
 {
 	char *builtinfunc_list[] = {"cd", "env", "help", "exit"};
 
@@ -24,5 +24,5 @@ int execute_args(char **args)
 		}
 	}
 	/** create process instead */
-	return (execmd(args));
+	return (execmd(program_name, args));
 }

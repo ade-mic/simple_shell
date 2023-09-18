@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "main.h"
 /**
  * _strcpy - function that copies a buffer from a string variable
  *	     to another
@@ -81,16 +80,28 @@ char *_strcat(char *str1, char *str2)
 	return (result);
 }
 
-char *_strchr(const char *s, int c)
+/**
+ * _strncmp - compares two string character by character untill n bytes
+ * @s1: first string
+ * @s2: second string
+ * @n: number of byte to compared
+ *
+ */
+int _strncmp(const char *s1, const char *s2, size_t n)
 {
-	while (*s != '\0')
-	{
-		if (*s == c)
-			return (char *)s;
-		++s;
-	}
+	size_t i;
 
-	if (c == '\0')
-		return (char *)s;
-	return (NULL);
+	for (i = 0; i < n; i++)
+	{
+		if (s1[i] != s2[i])
+		{
+			return ((unsigned char) s1[i] - (unsigned char)s2[i]);
+		}
+
+		if (s1[i] == '\0' || s2[i] == '\0')
+		{
+			break;
+		}
+	}
+	return (0);
 }

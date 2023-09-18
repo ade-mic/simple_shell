@@ -4,7 +4,7 @@
  *
  * Return: void
  */
-void non_interactive_mode(void)
+void non_interactive_mode(char *program_name)
 {
 	char *line;
 	char **args;
@@ -13,7 +13,7 @@ void non_interactive_mode(void)
 	do {
 		line = readstream();
 		args = process_line(line);
-		status = execute_args(args);
+		status = execute_args(program_name, args);
 
 		/** free memory **/
 		free(line);
