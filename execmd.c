@@ -2,7 +2,7 @@
 /**
  * execmd - executes a shell command using execve
  * @argv: command list
- *
+ * @program_name: program_name
  * Return: 1 on success
  */
 
@@ -13,7 +13,6 @@ int execmd(char *program_name, char **argv)
 	char *dir, *path;
 	char full_path[1024];
 
-	/** does argv[0] exist : iscommand() */
 	if (strchr(argv[0], '/') == NULL)
 	{
 		path = iscommand(argv[0]);
@@ -33,25 +32,21 @@ int execmd(char *program_name, char **argv)
 
 	pid = fork();
 	if (pid == 0)
-	{
-		/* child process*/
+	{      /* child process*/
 		if (execve(dir, argv, NULL) == -1)
 		{
 			perror(program_name);
 		}
 	} else if (pid < 0)
-	{
-		/*Error forking*/
+	{	/*Error forking*/
 		perror("error in nw_process: forking");
 	} else
-	{
-		/* Parent Process*/
+	{	/* Parent Process*/
 		do {
 			waitpid(pid, &status, WUNTRACED);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
 	return (-1);
-
 }
 
 /**
