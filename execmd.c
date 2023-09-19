@@ -11,21 +11,18 @@ int execmd(char *program_name, char **argv)
 	pid_t pid;
 	int status;
 	char *dir, *path;
-	char full_path[1024];
+	/*char full_path[1024];*/
 
 	if (strchr(argv[0], '/') == NULL)
 	{
 		path = iscommand(argv[0]);
 		if (!path)
 		{
-			fprintf(stderr, "%s: No such file or directory\n", program_name);
+			perror(program_name);
+			free(path);
 			exit(EXIT_FAILURE);
 		}
-		else
-		{
-			snprintf(full_path, sizeof(full_path), "%s/%s", path, argv[0]);
-			dir = full_path;
-		}
+		dir = path;
 	}
 	else
 		dir = argv[0];
@@ -37,6 +34,7 @@ int execmd(char *program_name, char **argv)
 		{
 			perror(program_name);
 		}
+
 	} else if (pid < 0)
 	{	/*Error forking*/
 		perror("error in nw_process: forking");
@@ -46,6 +44,8 @@ int execmd(char *program_name, char **argv)
 			waitpid(pid, &status, WUNTRACED);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
+	if (strchr(argv[0], '/') == NULL)
+		free(path);
 	return (-1);
 }
 
@@ -57,20 +57,38 @@ int execmd(char *program_name, char **argv)
  */
 char *iscommand(char *cmd)
 {
-	char *path = _getenv("PATH");
-	char *path_token = strtok(path, ":");
-	char full_path[1024];
+	char *path, *path_token, *path_cpy, *full_path = NULL;
+
+	path = _getenv("PATH");
+	if (!path)
+	{
+		fprintf(stderr, "PATH environment variable not set\n");
+		return (NULL);
+	}
+	path_cpy = strdup(path);
+	path_token = strtok(path_cpy, ":");
 
 	while (path_token != NULL)
 	{
-		snprintf(full_path, sizeof(full_path), "%s/%s", path_token, cmd);
+		full_path = malloc(strlen(path_token) + strlen(cmd) + 2);
+		if (!full_path)
+		{
+			perror("iscommand: memory allocation");
+			free(path_cpy);
+			return (NULL);
+		}
+		snprintf(full_path, strlen(path_token) + strlen(cmd) + 2,
+			 "%s/%s", path_token, cmd);
 
 		/** check if the command exist in this directory **/
 		if (access(full_path, X_OK) == 0)
 		{
-			return (strdup(path_token));
+			free(path_cpy);
+			return (full_path);
 		}
+		free(full_path);
 		path_token = strtok(NULL, ":");
 	}
+	free(path_cpy);
 	return (NULL);
 }
