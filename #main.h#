@@ -29,5 +29,20 @@ char *iscommand(char *);
 /** BUiltin **/
 int own_cd(char **args);
 int own_exit(char **args);
-int own_env(char **args);
+/**
+ * main - print the environment
+ *
+ * Return: Always 0
+ */
+int main(int ac, char **av, char **env)
+{
+	unsigned int i;
+
+	i = 0;
+	while(env[i] != NULL)
+	{
+		printf("%s\n", env[i]);
+		i++;
+	}
+	return (int own_env(char **args);
 #endif /* SHELL_H */

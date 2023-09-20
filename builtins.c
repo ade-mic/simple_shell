@@ -32,3 +32,21 @@ int own_exit(char **args)
 	(void) args;
 	return (0);
 }
+
+/**
+ * own_env - print the environment
+ *
+ * Return: Always 0
+ */
+int own_env(char **args)
+{
+	unsigned int i = 0;
+
+	(void) args;
+	while(environ[i] != NULL)
+	{
+		printf("%s\n", environ[i]);
+		i++;
+	}
+	return (-1);
+}

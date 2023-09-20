@@ -7,9 +7,9 @@
  */
 int execute_args(char *program_name, char **args)
 {
-	char *builtinfunc_list[] = {"cd", "env", "help", "exit"};
+	char *builtinfunc_list[] = {"exit", "env", "cd"};
 
-	int (*builtinfunc[])(char **) = {own_cd};
+	int (*builtinfunc[])(char **) = {own_exit, own_env, own_cd};
 	long unsigned int i;
 
 	if (args[0] == NULL)

@@ -30,9 +30,10 @@ int execmd(char *program_name, char **argv)
 	pid = fork();
 	if (pid == 0)
 	{      /* child process*/
-		if (execve(dir, argv, NULL) == -1)
+		if (execve(dir, argv, environ) == -1)
 		{
 			perror(program_name);
+			exit(EXIT_FAILURE);
 		}
 
 	} else if (pid < 0)
