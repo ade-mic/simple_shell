@@ -1,7 +1,8 @@
 #include "main.h"
 /**
  * main - start shell and check for mode
- *
+ * @argc:  arguement count
+ * @argv: arguement vector
  * Return: int 0 on success
  */
 

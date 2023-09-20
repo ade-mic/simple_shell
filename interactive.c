@@ -1,7 +1,7 @@
 #include "main.h"
 /**
  * interactive_mode - command line intepreter
- *
+ * @program_name: the program name
  * Return: void
  */
 void interactive_mode(char *program_name)

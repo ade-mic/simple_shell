@@ -85,7 +85,7 @@ char *_strcat(char *str1, char *str2)
  * @s1: first string
  * @s2: second string
  * @n: number of byte to compared
- *
+ * Return: 0 on success
  */
 int _strncmp(const char *s1, const char *s2, size_t n)
 {

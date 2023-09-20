@@ -27,5 +27,5 @@ char *readline(void)
 			exit(EXIT_FAILURE);
 		}
 	}
-	return line;
+	return (line);
 }
